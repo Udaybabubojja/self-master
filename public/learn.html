@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googleapis.com https://www.youtube.com https://api.ytmp3.cc; connect-src 'self' https://www.googleapis.com https://www.youtube.com https://api.ytmp3.cc; frame-src https://www.youtube.com;">
+    <title>Explore</title>
+    <link rel="icon" href="s1-removebg-preview.png">
+    <style>
+        /* Add your CSS styles here */
+        body{
+            background-color: #e0dfdf;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            text-align: center;
+            justify-content: center;
+        }
+        img{
+            width: 300px;
+            height: 260px;
+            margin-left: -6%;
+        }
+        header h1{
+            margin-top: 9.5%;
+            font-size: 38px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+        }
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        #search-input {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        #search-button {
+            background-color: #5004b3;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .results-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 50px;
+        }
+
+        .track-result {
+            background-color: #e0dfdf;
+            padding: 10px;
+            border-radius: 5px;
+            
+        }
+
+        .track-result h3 {
+            font-size: 16px;
+            margin: 0;
+        }
+
+        .video-iframe {
+            width: 100%;
+            height: 200px;
+        }
+        .video-iframe:hover{
+            transform: scale(1.1);
+            transition: 0.8s;
+        }
+        .navbar {
+            background-color: #5d21d1;
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+        }
+        .navbar ul{
+            display: flex;
+            list-style: none;
+        }
+        .navbar a {
+            float: right;
+            display: block;
+            color: #fff;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            list-style: none;
+            font-size: 18px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .navbar a:hover {
+            background-color: #fb7426;
+            color: white;
+            transform: scale(1.1);
+            transition: 0.8s;
+        }
+        
+        /* Apply initial styles to hide the text */
+
+    </style>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <ul>
+            <li><a href="/homepage">Home</a></li>
+            <li><a href="/main">Quiz</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/login">Login/Signup</a></li>
+        </ul>
+    </nav>   
+
+    <header>
+        <img src="s5.gif" alt="">
+        <h1>Unleash Your Potential</h1>
+    </header>
+    <main>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Enter your search...">
+            <button id="search-button">Search</button>
+        </div>
+        
+        <div id="search-results" class="results-container"></div>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.getElementById('search-input');
+            const searchButton = document.getElementById('search-button');
+            const searchResults = document.getElementById('search-results');
+            const apiKey = 'AIzaSyD3KfuoYiOm_e75xRjMc23_oWUp8tGYJmI'; //YouTube API Key
+
+            function displaySearchResults(response) {
+                const videos = response.items || [];
+                searchResults.innerHTML = '';
+
+                videos.forEach(video => {
+                   
+                    if (video.contentDetails && video.contentDetails.regionRestriction && video.contentDetails.regionRestriction.blocked) {
+                        return;
+                    }
+
+                    const videoUrl = `https://www.youtube.com/embed/${video.id.videoId}`;
+                    const trackResult = document.createElement('div');
+                    trackResult.classList.add('track-result');
+                    
+                    trackResult.innerHTML = `
+                        <h3>${video.snippet ? video.snippet.title : ''}</h3>
+                        <iframe class="video-iframe" src="${videoUrl}" frameborder="0" allowfullscreen></iframe>
+                    `;
+
+                    searchResults.appendChild(trackResult);
+                });
+            }
+
+            function learn(query) {
+                const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&q=${encodeURIComponent(query)}&type=video&maxResults=20`;
+
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        displaySearchResults(data);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            }
+
+            searchButton.addEventListener('click', () => {
+                const query = searchInput.value.trim();
+                if (query === '') {
+                    return;
+                }
+                learn(query);
+            });
+
+            searchInput.addEventListener('keydown', event => {
+                if (event.key === 'Enter') {
+                    const query = searchInput.value.trim();
+                    if (query === '') {
+                        return;
+                    }
+                    learn(query);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

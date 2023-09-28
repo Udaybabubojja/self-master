@@ -1,0 +1,58 @@
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('ss3.jpg');
+    /*https://images.wallpapersden.com/image/download/my-hero-academia-anime_a2hpa2aUmZqaraWkpJRqZ21qrWhlaGg.jpg*/
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+}
+
+h1{
+    text-align: center;
+    font-size: 16px;
+    color: whitesmoke;
+    margin-top: 2%;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 70vh;
+    margin-left: 12%;
+    margin-top: 2%;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    padding: 20px;
+    border-radius: 0px 20px 20px 0px;
+    margin: 10px;
+    width: 200px;
+    color: white;
+}
+
+.option:hover i, .option:hover p, .option:hover {
+    background-color: white;
+    color: black;
+    transition: 0.3s;
+}
+.option:hover{
+    width: 320px;
+    transition: 0.6s;
+}
+.option i {
+    font-size: 50px;
+    color: whitesmoke;
+    margin-bottom: 10px;
+}
+
+.option p {
+    margin: 0;
+    font-weight: bold;
+    font-size: 22px;
+    margin-left: 20px;
+    margin-top: -7px;
+    color: white;
+}

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: url('wp7488568.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+     /* Set a background color */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            float: left;
+            background-color: white;
+            overflow: hidden;
+            width: 360px;
+            max-width: 80%;
+            padding: 50px;
+            margin: 30px;
+            border-radius: 20px;
+        }
+
+        .container:hover {
+            transform: scale(1.02);
+            transition: 0.6s;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
+
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-weight: bold;
+            color: #000000;
+            margin: 0;
+            text-align: center;
+            margin: -50px;
+            padding: 30px;
+        }
+
+        p {
+            text-align: center;
+            color: #777;
+        }
+
+        p a {
+            color: #ef005c;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        p a:hover {
+            text-decoration: underline;
+        }
+        .material-icons {
+            position: absolute;
+            color: #3b3939;
+            margin-left: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            margin-right: 20px;
+        }
+
+        input:focus {
+            border-color: #007bff;
+        }
+
+        input[type=submit] {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 12px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        input[type=submit]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>LOGIN</h1> <br><br><br> <br>
+        <form id="login-form" method="post" action="/login">
+            
+            <label for="email">Email</label><i class="material-icons">email</i><br>
+            <input type="email" id="email" required><br><br>
+            <label for="password">Password</label><i class="material-icons">lock</i><br>
+            <input type="password" id="password" required><br><br>
+            <input type="submit" value="LOG IN" id="login">
+        </form>
+        <p>Don't have an account? <a href="/index">SIGN UP</a></p>
+    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-analytics.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-auth.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            // Your Firebase config here
+            apiKey: "AIzaSyD3KfuoYiOm_e75xRjMc23_oWUp8tGYJmI",
+            authDomain: "anime-d5da7.firebaseapp.com",
+            projectId: "anime-d5da7",
+            storageBucket: "anime-d5da7.appspot.com",
+            messagingSenderId: "1043887892058",
+            appId: "1:1043887892058:web:7724a2cf68a61b7ecf1a63"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+        const analytics = getAnalytics();
+
+        document.getElementById("login-form").addEventListener("submit", function(e) {
+            e.preventDefault(); // Prevent the default form submission behavior
+
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then(function(userCredential) {
+                    // Get the user from the userCredential object
+                    const user = userCredential.user;
+                    console.log(user.uid);
+                    alert("Redirected to Home Page");
+                    window.location.href = "homepage.html";
+                })
+                .catch(function(err) {
+                    alert("Error: " + err.message);
+                });
+                
+        });
+       
+    </script>
+</body>
+</html>
